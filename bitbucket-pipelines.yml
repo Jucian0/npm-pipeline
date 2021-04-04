@@ -17,7 +17,6 @@ pipelines:
           script:
             # HTTPS METHOD
             # PACKAGE INSTALLATIONS
-            - git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
             - npm install
             - npm install -g gulp
             - npm run tag:develop
@@ -30,6 +29,7 @@ pipelines:
             # PACKAGE INSTALLATIONS
             - npm install
             - npm install -g gulp
+            - npm run tag:patch
             # AUTO VERSIONING
             - bash ./script/git.sh
 # # SSH METHOD - TODO: connect with ssh - replaces https method
