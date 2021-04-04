@@ -22,7 +22,7 @@ pipelines:
             - npm install -g gulp
             - npm run tag:develop
             # AUTO VERSIONING
-            - bash ./script/git.sh
+            - bash ./scripts/git.sh
     master:
       - step:
           script:
@@ -31,7 +31,7 @@ pipelines:
             - npm install
             - npm install -g gulp
             # AUTO VERSIONING
-            - bash ./script/git.sh
+            - bash ./scripts/git.sh
 # # SSH METHOD - TODO: connect with ssh - replaces https method
 #         script:
 #           - touch ~/.ssh/my_ssh_key.pub
