@@ -1,0 +1,68 @@
+# This is a sample build configuration for Javascript.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:15.12.0
+
+pipelines:
+  default:
+    - step:
+        script:
+          # PACKAGE INSTALLATIONS
+          - npm install
+  branches:
+    develop:
+      - step:
+          script:
+            # HTTPS METHOD
+            # PACKAGE INSTALLATIONS
+            - git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
+            - npm install
+            - npm install -g gulp
+            # AUTO VERSIONING
+            - gulp up-develop
+            - git init
+            - git config user.name "$USERNAME"
+            - git config user.email "$USER_EMAIL"
+            - git add package.json
+            - git commit -m "[skip CI]" # Required to avoid re-running this CI upon git push
+            - git push
+            - declare -x VERSION=$(jq -r '.version' package.json)
+            - echo $VERSION
+            - git tag $VERSION
+            - git remote -v
+            - git push origin --tags
+    master:
+      - step:
+          script:
+            # HTTPS METHOD
+            # PACKAGE INSTALLATIONS
+            - npm install
+            - npm install -g gulp
+            # AUTO VERSIONING
+            - git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
+            - gulp auto-version-patch
+            - git init
+            - git config user.name "$USERNAME"
+            - git config user.email "$USER_EMAIL"
+            - git add package.json
+            - git commit -m "[skip CI]" # Required to avoid re-running this CI upon git push
+            - git push
+            - declare -x VERSION=$(jq -r '.version' package.json)
+            - echo $VERSION
+            - git tag $VERSION
+            - git remote -v
+            - git push origin --tags
+# # SSH METHOD - TODO: connect with ssh - replaces https method
+#         script:
+#           - touch ~/.ssh/my_ssh_key.pub
+#           - cat pipelines_ssh_key.pub >> ~/.ssh/my_ssh_key.pub
+#           - cat ~/.ssh/my_ssh_key.pub
+#           - chmod 600 ~/.ssh/*
+
+#           - ssh -v -i ~/.ssh/my_ssh_key.pub git@bitbucket.org
+#           - declare -x VERSION=$(jq '.version' package.json)
+#           - echo $VERSION;
+#           - git tag 'test_tag3'
+#           - git push --tags
