@@ -20,19 +20,9 @@ pipelines:
             - git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
             - npm install
             - npm install -g gulp
+            - npm run tag:develop
             # AUTO VERSIONING
-            - gulp up-develop
-            - git init
-            - git config user.name "$USERNAME"
-            - git config user.email "$USER_EMAIL"
-            - git add package.json
-            - git commit -m "[skip CI]" # Required to avoid re-running this CI upon git push
-            - git push
-            - declare -x VERSION=$(jq -r '.version' package.json)
-            - echo $VERSION
-            - git tag $VERSION
-            - git remote -v
-            - git push origin --tags
+            - bash ./script/git.sh
     master:
       - step:
           script:
@@ -41,19 +31,7 @@ pipelines:
             - npm install
             - npm install -g gulp
             # AUTO VERSIONING
-            - git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
-            - gulp auto-version-patch
-            - git init
-            - git config user.name "$USERNAME"
-            - git config user.email "$USER_EMAIL"
-            - git add package.json
-            - git commit -m "[skip CI]" # Required to avoid re-running this CI upon git push
-            - git push
-            - declare -x VERSION=$(jq -r '.version' package.json)
-            - echo $VERSION
-            - git tag $VERSION
-            - git remote -v
-            - git push origin --tags
+            - bash ./script/git.sh
 # # SSH METHOD - TODO: connect with ssh - replaces https method
 #         script:
 #           - touch ~/.ssh/my_ssh_key.pub

@@ -1,14 +1,20 @@
 {
   "name": "autoversion",
-  "version": "2.0.0",
+  "version": "4.0.1-0",
   "description": "Auto version example using Bitbucket Pipelines",
   "main": "api.js",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^4.0.2",
-    "gulp-bump": "^3.2.0"
+    "gulp-bump": "^3.2.0",
+    "gulp-git": "^2.10.1"
   },
-  "scripts": {},
+  "scripts": {
+    "tag:develop": "gulp up-develop --gulpfile ./scripts/gulpfile.js",
+    "tag:patch": "gulp up-patch --gulpfile ./scripts/gulpfile.js",
+    "tag:minor": "gulp up-develop --gulpfile ./scripts/gulpfile.js",
+    "tag:major": "gulp up-develop --gulpfile ./scripts/gulpfile.js"
+  },
   "author": "Shane Fast",
   "license": "MIT"
 }
