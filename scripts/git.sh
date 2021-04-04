@@ -29,5 +29,6 @@ echo $VERSION
 git tag $VERSION
 git remote -v
 git push origin --tags
+abort_on_failure "Failed to push tags"
 
 echo "New Version: $VERSION"
