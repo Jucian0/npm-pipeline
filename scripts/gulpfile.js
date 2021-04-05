@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const bump = require('gulp-bump');
 const git = require('gulp-git');
 
-gulp.task('up-develop',  async function () {
+gulp.task('up-develop',  function () {
     return gulp.src(['../package.json'])
         .pipe(bump({type:'prerelease'}))
         .pipe(gulp.dest('../'))
