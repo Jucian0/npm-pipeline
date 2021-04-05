@@ -9,35 +9,76 @@ image:
   password: $DOCKER_PW
   email: shane@get-paper.com
 
-pipelines:
-  default:
-    - step:
+definitions:
+  steps:
+    - step: &run-tests
+        name: Run Tests
+        caches:
+          - node
         script:
+          - npm install
+          - npm run test
+    - step: &up-develop
+        name: Up Develop
+        caches:
+          - node
+        script:
+          # HTTPS METHOD
           # PACKAGE INSTALLATIONS
           - npm install
+          - npm install -g gulp
+          # AUTO VERSIONING
+          - npm run tag:develop
+          # GIT COMMANDS
+          - bash ./scripts/git.sh
+    - step: &up-patch
+        name: Up Patch
+        caches:
+          - node
+        script:
+          # HTTPS METHOD
+          # PACKAGE INSTALLATIONS
+          - npm install
+          - npm install -g gulp
+          # AUTO VERSIONING
+          - npm run tag:patch
+            # GIT COMMANDS
+          - bash ./scripts/git.sh
+    - step: &up-minor
+        name: Up Minor
+        caches:
+          - node
+        script:
+          # HTTPS METHOD
+          # PACKAGE INSTALLATIONS
+          - npm install
+          - npm install -g gulp
+          # AUTO VERSIONING
+          - npm run tag:minor
+            # GIT COMMANDS
+          - bash ./scripts/git.sh
+    - step: &up-major
+        name: Up Major
+        caches:
+          - node
+        script:
+          # HTTPS METHOD
+          # PACKAGE INSTALLATIONS
+          - npm install
+          - npm install -g gulp
+          # AUTO VERSIONING
+          - npm run tag:major
+            # GIT COMMANDS
+          - bash ./scripts/git.sh
+
+pipelines:
+  default:
+    - step: *run-tests
   branches:
     develop:
-      - step:
-          script:
-            # HTTPS METHOD
-            # PACKAGE INSTALLATIONS
-            - npm install
-            - npm install -g gulp
-            # AUTO VERSIONING
-            - npm run tag:develop
-            # GIT COMMANDS
-            - bash ./scripts/git.sh
+      - step: *up-develop
     master:
-      - step:
-          script:
-            # HTTPS METHOD
-            # PACKAGE INSTALLATIONS
-            - npm install
-            - npm install -g gulp
-            # AUTO VERSIONING
-            - npm run tag:patch
-              # GIT COMMANDS
-            - bash ./scripts/git.sh
+      - step: *up-patch
 # # SSH METHOD - TODO: connect with ssh - replaces https method
 #         script:
 #           - touch ~/.ssh/my_ssh_key.pub
