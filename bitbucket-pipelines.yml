@@ -3,7 +3,11 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: node:15.12.0
+image:
+  name: shanepaper/autoversion
+  username: shanepaper
+  password: $DOCKER_PW
+  email: shane@get-paper.com
 
 pipelines:
   default:
@@ -19,8 +23,9 @@ pipelines:
             # PACKAGE INSTALLATIONS
             - npm install
             - npm install -g gulp
-            - npm run tag:develop
             # AUTO VERSIONING
+            - npm run tag:develop
+            # GIT COMMANDS
             - bash ./scripts/git.sh
     master:
       - step:
@@ -31,6 +36,8 @@ pipelines:
             - npm install -g gulp
             - npm run tag:patch
             # AUTO VERSIONING
+            - npm run tag:patch
+              # GIT COMMANDS
             - bash ./scripts/git.sh
 # # SSH METHOD - TODO: connect with ssh - replaces https method
 #         script:

@@ -1,6 +1,6 @@
 {
   "name": "autoversion",
-  "version": "4.0.1-0",
+  "version": "5.0.2-0",
   "description": "Auto version example using Bitbucket Pipelines",
   "main": "api.js",
   "dependencies": {},
@@ -12,8 +12,8 @@
   "scripts": {
     "tag:develop": "gulp up-develop --gulpfile ./scripts/gulpfile.js",
     "tag:patch": "gulp up-patch --gulpfile ./scripts/gulpfile.js",
-    "tag:minor": "gulp up-develop --gulpfile ./scripts/gulpfile.js",
-    "tag:major": "gulp up-develop --gulpfile ./scripts/gulpfile.js"
+    "tag:minor": "gulp up-minor --gulpfile ./scripts/gulpfile.js",
+    "tag:major": "gulp up-major --gulpfile ./scripts/gulpfile.js"
   },
   "author": "Shane Fast",
   "license": "MIT"
