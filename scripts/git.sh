@@ -3,7 +3,7 @@
 git init
 
 # Authentication
-git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/pipeline-npm.git
+git config remote.origin.url https://$USERNAME:$PASSWORD@bitbucket.org/$USERNAME/npm-pipeline.git
 
 # Configure git
 git config user.name "$USERNAME"
