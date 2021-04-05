@@ -1,6 +1,6 @@
 {
   "name": "autoversion",
-  "version": "5.0.1",
+  "version": "5.0.2-0",
   "description": "Auto version example using Bitbucket Pipelines",
   "main": "api.js",
   "dependencies": {},
